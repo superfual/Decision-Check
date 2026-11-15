@@ -10,6 +10,12 @@ A concept-stage tool combining Wyckoff–SMC market evidence, portfolio accounti
 
 Retail investors need to inspect the evidence behind signals, reconcile their cost basis and PnL, and determine whether buying more fits their own risk constraints. An interesting market opportunity can still be unsuitable for the portfolio.
 
+## Portfolio Insider Agent — incubation branch
+
+[Portfolio Insider Agent](agents/portfolio-insider/README.md) is a planned read-only analysis agent for **Spot, Futures and Options**, incubated here before a separate repository is created. It interprets the user's current portfolio and positions on request; it does not execute trades.
+
+The current website remains a spot-only sample calculator. This branch documents the broader agent direction; no account connection, derivatives engine or agent runtime has been implemented.
+
 ## Current status
 
 | Component | Status |
