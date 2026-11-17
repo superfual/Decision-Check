@@ -64,3 +64,17 @@ source freshness checks and persistent snapshots. Do not expose this CLI as an
 unauthenticated unbounded public process. A service must add authentication,
 quotas, request limits, monitoring and backup/restore. No paid service is enabled
 by this change. A Cloudflare static site cannot execute these Python modules.
+
+## Successful collection retry — 2026-11-18 (Vietnam time)
+
+The development executor successfully collected BTCUSDT Spot directly from the
+Binance public market-data API. Source cutoff: 2026-11-17T18:22:09.846Z
+(2026-11-18 01:22:09.846 UTC+7). D1 120, H4 240, H1 300, M15 300
+closed candles passed validation; independent local replay returned REPLAY_MATCH.
+The public snapshot is `site/observed-market-report.json`. It contains public
+market data only. This is a recorded observed snapshot, not a continuously
+updated feed or a hosted analysis API. Earlier connectivity limitations above
+remain historical context and must not be read as the result of this retry.
+
+Source access from the executor does not establish that the production hosting
+platform can fetch the same data or execute Python. That deployment is still pending.

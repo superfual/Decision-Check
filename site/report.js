@@ -8,6 +8,7 @@ const lang=Object.hasOwn(words,new URLSearchParams(location.search).get('lang'))
 document.documentElement.lang=lang;
 for(const [id,key] of [['title','title'],['intro','intro'],['label','label'],['example','example'],['evidence-title','evidence'],['provenance-title','provenance'],['download','download'],['verify-title','verifyTitle'],['verify-description','verifyDescription']])document.getElementById(id).textContent=t[key];
 document.getElementById('back').href=lang+'.html';
+document.getElementById('observed').textContent={en:'View recorded Binance Spot report · BTCUSDT',vi:'Xem báo cáo Binance Spot đã ghi · BTCUSDT',zh:'查看已记录的币安现货报告 · BTCUSDT'}[lang];
 let accepted=null,loadSequence=0;
 const canonical=v=>JSON.stringify(v,(_key,value)=>value&&typeof value==='object'&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(k=>[k,value[k]])):value);
 const finite=v=>typeof v==='number'&&Number.isFinite(v);
@@ -48,3 +49,5 @@ async function load(r){const seq=++loadSequence;accepted=null;document.getElemen
 document.getElementById('file').onchange=async e=>{const file=e.target.files[0];++loadSequence;accepted=null;document.getElementById('report').hidden=true;if(!file||file.size>5000000){document.getElementById('status').textContent=t.invalid;return;}try{await load(JSON.parse(await file.text()));}catch{document.getElementById('status').textContent=t.invalid;}};
 document.getElementById('example').onclick=async()=>{try{const response=await fetch('example-market-report.json');if(!response.ok)throw Error();await load(await response.json());}catch{accepted=null;document.getElementById('report').hidden=true;document.getElementById('status').textContent=t.invalid;}};
 document.getElementById('download').onclick=()=>{if(!accepted)return;const url=URL.createObjectURL(new Blob([JSON.stringify(accepted,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='decision-market-report.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+
+document.getElementById('observed').onclick=async()=>{try{const response=await fetch('observed-market-report.json');if(!response.ok)throw Error();await load(await response.json());}catch{accepted=null;document.getElementById('report').hidden=true;document.getElementById('status').textContent=t.invalid;}};
