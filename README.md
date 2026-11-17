@@ -19,7 +19,11 @@ Retail investors need to inspect the evidence behind signals, reconcile their co
 | Unrealized PnL for one sample position | Implemented under stated assumptions |
 | Proposed purchase reserve and allocation checks | JavaScript simulation |
 | JSON export | Local illustrative record, not onchain proof |
-| Existing Wyckoff–SMC agent | Separate existing repository; not connected yet |
+| Wyckoff–SMC engine | Pinned deterministic modules incorporated; market-evidence report pipeline implemented |
+| Binance Spot / USD-M data | Direct public collectors implemented; production connectivity not verified |
+| Snapshot storage | Local single-owner SQLite, idempotent report storage |
+| Agent report page | EN / VI / ZH import, snapshot checksum and provenance; synthetic test example clearly labeled |
+| Deterministic replay | Python verifier recomputes analysis from saved candles |
 | Full ledger / realized PnL / modeled loss budget | Planned |
 | Decision Check TapeOut circuits | Proposed; not deployed |
 | Account connections and automated orders | Not implemented |
@@ -28,9 +32,9 @@ The Wyckoff and SMC selectors are **manual examples**, not actual outputs from t
 
 ## Existing analysis foundation
 
-The creator's [Wyckoff–SMC Swing Agent](https://github.com/superfual/Wyckoff-smc-swing-agent) is the intended analysis foundation. Its orchestrator exposes structured Wyckoff, SMC, confluence, thesis and risk results, reasons and errors. This repository currently links to it; it does not vendor or execute that Python agent.
+The creator's [Wyckoff–SMC Swing Agent](https://github.com/superfual/Wyckoff-smc-swing-agent) is the intended analysis foundation. Its orchestrator exposes structured Wyckoff, SMC, confluence, thesis and risk results, reasons and errors. This repository now incorporates four unmodified deterministic analysis modules from upstream revision `ca6dce03685317e980d435d22539cc8d0bf45e15`. The pipeline calls Wyckoff, SMC and confluence directly; it does not import the execution or account modules. See `decision_check/vendor/UPSTREAM.md` and its MIT license.
 
-Pin the upstream revision and retain applicable MIT attribution when incorporating its code. Live data access must be validated independently; a static site does not acquire a working data connection merely by linking a repo.
+Live data access must be validated on the target host. The static site imports reports; it does not run Python or call a hosted analysis API. The original sample selectors remain manual and separate from imported market evidence.
 
 ## Proposed workflow
 
@@ -68,3 +72,20 @@ The calculator assumes spot holdings, no debt, no fees or slippage, and no sells
 Contributions in portfolio accounting, deterministic strategy rules, TapeOut circuit design, UX and testing are welcome. Please open an issue describing the problem and proposed scope before substantial implementation.
 
 This is an independent concept prototype, not an audited trading system or an official TapeOut/X Layer product. It does not claim to be the first or only such product. Automatic execution is outside the current scope.
+
+## Market evidence pipeline (Python 3.11+, standard library only)
+
+```sh
+python3 -m decision_check collect BTCUSDT --market SPOT --out report.json
+python3 -m decision_check collect BTCUSDT --market USD_M_FUTURES --out futures-report.json
+python3 -m decision_check verify report.json
+python3 -m unittest discover -s tests -v
+```
+
+Open `site/report.html?lang=en` (or `vi` / `zh`) through a local web server and import the report.
+The complete public candle snapshot is included. SQLite stores reports locally; do not commit the database.
+Browser checksum validation is not independent analysis replay or source authentication.
+The Python verifier recomputes the pinned deterministic analysis. An attacker able to replace
+both the snapshot and checksum can generate a new internally consistent record; retain a trusted reference.
+
+See [Data sources and operations](docs/DATA_SOURCES.md) for boundaries and connectivity results.
