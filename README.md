@@ -100,3 +100,18 @@ The Python verifier recomputes the pinned deterministic analysis. An attacker ab
 both the snapshot and checksum can generate a new internally consistent record; retain a trusted reference.
 
 See [Data sources and operations](docs/DATA_SOURCES.md) for boundaries and connectivity results.
+
+## Free manual Portfolio Insider check
+
+Open `site/manual.html?lang=vi` (also `en` / `zh`). The free scope is one spot
+asset or one existing linear USDT futures position per check, with an explicit
+intent and holding horizon. Inputs stay in page memory; JSON export is local.
+No account synchronization, API credentials, LLM request or trade is involved.
+
+The page calculates user-supplied scenarios and proposes a market-data profile.
+It does **not** fetch the selected market data, run the independent agents or
+verify TapeOut circuits. See [free MVP scope](docs/FREE_MANUAL_MVP.md).
+
+```sh
+node --test tests/manual-core.test.mjs
+```
