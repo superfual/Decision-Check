@@ -78,3 +78,7 @@ remain historical context and must not be read as the result of this retry.
 
 Source access from the executor does not establish that the production hosting
 platform can fetch the same data or execute Python. That deployment is still pending.
+
+A separate BTCUSDT USD-M Futures retry returned HTTP 451 from the configured
+Futures endpoint in this executor. No Futures report was generated. Spot success
+does not imply Futures availability; no alternate route or market was substituted.
