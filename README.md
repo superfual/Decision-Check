@@ -36,13 +36,24 @@ The creator's [Wyckoff–SMC Swing Agent](https://github.com/superfual/Wyckoff-s
 
 Live data access must be validated on the target host. The static site imports reports; it does not run Python or call a hosted analysis API. The original sample selectors remain manual and separate from imported market evidence.
 
-## Proposed workflow
+## Request-scoped workflow
 
-1. Validate closed-candle market data, source and cutoff time.
-2. Run the existing agent and retain evidence, uncertainty and settings.
-3. Reconcile portfolio history and evaluate a proposed purchase.
-4. Check clearly specified rules through deployed TapeOut circuits.
-5. Show reasons and a reproducible decision record.
+1. User selects a decision intent (spot purchase/review or futures open/review).
+2. Portfolio Insider proposes the exact instrument, venue, product and data requirements from the selected portfolio or explicit user request.
+3. The source router fetches one dataset; validation and snapshot persistence must succeed before analysis starts.
+4. **Wyckoff Agent and SMC Agent run independently on the same snapshot.** Neither consumes the other's conclusion or fetches a separate feed.
+5. Portfolio findings and the two evidence reports are combined only downstream; proposed TapeOut circuits check explicitly encoded quantitative conditions.
+6. An explanation and alternative scenarios are presented without sending orders.
+
+`decision_check/intake.py` implements the deterministic intake contract, source
+routing boundary and data gate; `decision_check/agents.py` defines independent
+analysis runners. Portfolio Insider's own runtime/account adapters and the
+TapeOut circuits remain unimplemented. These runners are not deployed circuits
+or separate LLM services. Their common snapshot hash binds the input, not its
+authenticity. See [the intake architecture](docs/INDEPENDENT_AGENTS.md).
+
+The legacy v1 combined report remains available for historical replay. It is not
+the new independent-agent report or evidence of a deployed multi-agent service.
 
 Example: Wyckoff and SMC meet the selected conditions, but a proposed purchase raises allocation to 60% against a 40% limit. The result is **conditions not met**, with the failing constraint visible. These are illustrative figures.
 
