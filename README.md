@@ -130,3 +130,13 @@ The brain separates the loss budget of one proposed decision from whole-portfoli
 cycle risk against a fixed NAV anchor. It reports DCA cost/PnL, cash ratios,
 scenario bounds and linear futures notional sizing. Examples are synthetic.
 It is not wired into the hosted UI, exchange accounts, or deployed TapeOut circuits.
+
+## Independent market brains v2
+
+[Wyckoff Agent](agents/wyckoff/README.md) · [SMC Agent](agents/smc/README.md) ·
+[Three-logic / TapeOut candidate contract (VI)](docs/THREE_LOGIC.vi.md).
+
+Profile-specific closed OHLCV supports CYCLE (monthly/weekly/daily), SWING
+(daily/H4/H1) and INTRADAY (H4/H1/M15), with explicit ordered rule checks and
+UNKNOWN handling. Legacy v1 analysis and replay remain unchanged. The three-leg
+combiner is local simulation only; no Decision Check circuit is deployed.

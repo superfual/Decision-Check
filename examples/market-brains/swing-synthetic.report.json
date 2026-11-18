@@ -1,0 +1,892 @@
+{
+  "schema": "decision-check.market-pair.v2",
+  "wyckoff": {
+    "schema": "decision-check.market-brain.v2",
+    "agent_id": "decision-check.wyckoff.v2",
+    "ruleset": "decision-check.market-rules.v2",
+    "upstream_revision": "ca6dce03685317e980d435d22539cc8d0bf45e15",
+    "status": "ANALYZED",
+    "snapshot_sha256": "22d84640fae01e8310f6a71b3f534c95b959253e18631cfdea8b7cf468db0282",
+    "scope": {
+      "venue": "BINANCE",
+      "symbol": "BNBUSDT",
+      "market": "SPOT",
+      "profile": "SWING",
+      "cutoff_ms": 1795046400000,
+      "kind": "SYNTHETIC_TEST"
+    },
+    "analysis_timeframe": "4h",
+    "context_timeframe": "1d",
+    "context": {
+      "bias": "NEUTRAL",
+      "last_close": 102.26692067721827,
+      "sma20": 99.96169989764851,
+      "sma50": 100.01990408509761,
+      "rule": "close > SMA20 > SMA50; reverse for bearish; otherwise neutral"
+    },
+    "evidence": {
+      "bias": "NEUTRAL",
+      "phase": "UNCONFIRMED",
+      "trading_range": {
+        "support": 96.78605049,
+        "resistance": 103.47452696,
+        "midpoint": 100.13028872,
+        "width_pct": 6.68,
+        "start_index": 210,
+        "end_index": 239,
+        "stability_score": 100.0,
+        "support_touches": 11,
+        "resistance_touches": 13
+      },
+      "events": [],
+      "confidence_score": 34.0,
+      "interpretation": "Trading range detected, but ordered Wyckoff evidence is mixed or insufficient.",
+      "symbol": "BNBUSDT",
+      "errors": []
+    },
+    "directions": {
+      "BULLISH": {
+        "pass": false,
+        "checks": [
+          {
+            "rule": "stable_range",
+            "pass": true,
+            "evidence": {
+              "support": 96.78605049,
+              "resistance": 103.47452696,
+              "midpoint": 100.13028872,
+              "width_pct": 6.68,
+              "start_index": 210,
+              "end_index": 239,
+              "stability_score": 100.0,
+              "support_touches": 11,
+              "resistance_touches": 13
+            }
+          },
+          {
+            "rule": "ordered_event_sequence",
+            "pass": false,
+            "evidence": []
+          },
+          {
+            "rule": "confirmation_within_10_bars",
+            "pass": false,
+            "evidence": []
+          },
+          {
+            "rule": "sweep_extreme_not_closed_through",
+            "pass": false,
+            "evidence": null
+          },
+          {
+            "rule": "higher_timeframe_not_opposed",
+            "pass": true,
+            "evidence": {
+              "bias": "NEUTRAL",
+              "last_close": 102.26692067721827,
+              "sma20": 99.96169989764851,
+              "sma50": 100.01990408509761,
+              "rule": "close > SMA20 > SMA50; reverse for bearish; otherwise neutral"
+            }
+          },
+          {
+            "rule": "wyckoff_bias_same_direction",
+            "pass": false,
+            "evidence": "NEUTRAL"
+          }
+        ]
+      },
+      "BEARISH": {
+        "pass": false,
+        "checks": [
+          {
+            "rule": "stable_range",
+            "pass": true,
+            "evidence": {
+              "support": 96.78605049,
+              "resistance": 103.47452696,
+              "midpoint": 100.13028872,
+              "width_pct": 6.68,
+              "start_index": 210,
+              "end_index": 239,
+              "stability_score": 100.0,
+              "support_touches": 11,
+              "resistance_touches": 13
+            }
+          },
+          {
+            "rule": "ordered_event_sequence",
+            "pass": false,
+            "evidence": []
+          },
+          {
+            "rule": "confirmation_within_10_bars",
+            "pass": false,
+            "evidence": []
+          },
+          {
+            "rule": "sweep_extreme_not_closed_through",
+            "pass": false,
+            "evidence": null
+          },
+          {
+            "rule": "higher_timeframe_not_opposed",
+            "pass": true,
+            "evidence": {
+              "bias": "NEUTRAL",
+              "last_close": 102.26692067721827,
+              "sma20": 99.96169989764851,
+              "sma50": 100.01990408509761,
+              "rule": "close > SMA20 > SMA50; reverse for bearish; otherwise neutral"
+            }
+          },
+          {
+            "rule": "wyckoff_bias_same_direction",
+            "pass": false,
+            "evidence": "NEUTRAL"
+          }
+        ]
+      }
+    },
+    "conflict": false,
+    "valid": true,
+    "risk_scenario_candidates": {
+      "source": "OBSERVED_LEVELS_NOT_PRICE_FORECASTS",
+      "range": {
+        "support": 96.78605049,
+        "resistance": 103.47452696,
+        "midpoint": 100.13028872,
+        "width_pct": 6.68,
+        "start_index": 210,
+        "end_index": 239,
+        "stability_score": 100.0,
+        "support_touches": 11,
+        "resistance_touches": 13
+      },
+      "latest_swing_high": null,
+      "latest_swing_low": null,
+      "usage": "Candidate invalidation levels only; user selects horizon and scenario. No probability assigned."
+    },
+    "interpretation_scope": "Heuristic scenario evidence; scores are not calibrated probabilities.",
+    "tapeout": {
+      "status": "NOT_REQUESTED",
+      "circuit_id": null
+    }
+  },
+  "smc": {
+    "schema": "decision-check.market-brain.v2",
+    "agent_id": "decision-check.smc.v2",
+    "ruleset": "decision-check.market-rules.v2",
+    "upstream_revision": "ca6dce03685317e980d435d22539cc8d0bf45e15",
+    "status": "ANALYZED",
+    "snapshot_sha256": "22d84640fae01e8310f6a71b3f534c95b959253e18631cfdea8b7cf468db0282",
+    "scope": {
+      "venue": "BINANCE",
+      "symbol": "BNBUSDT",
+      "market": "SPOT",
+      "profile": "SWING",
+      "cutoff_ms": 1795046400000,
+      "kind": "SYNTHETIC_TEST"
+    },
+    "analysis_timeframe": "1h",
+    "context_timeframe": "1d",
+    "context": {
+      "bias": "NEUTRAL",
+      "last_close": 102.26692067721827,
+      "sma20": 99.96169989764851,
+      "sma50": 100.01990408509761,
+      "rule": "close > SMA20 > SMA50; reverse for bearish; otherwise neutral"
+    },
+    "evidence": {
+      "symbol": "BNBUSDT",
+      "timeframe": "1h",
+      "bias": "BULLISH",
+      "trend_state": "BULLISH_STRUCTURE",
+      "swings": [
+        {
+          "kind": "HIGH",
+          "index": 3,
+          "timestamp": 1793977200000,
+          "price": 103.92154289263459,
+          "strength": 2,
+          "confirmed_index": 5
+        },
+        {
+          "kind": "LOW",
+          "index": 8,
+          "timestamp": 1793995200000,
+          "price": 96.01150617349248,
+          "strength": 2,
+          "confirmed_index": 10
+        },
+        {
+          "kind": "HIGH",
+          "index": 13,
+          "timestamp": 1794013200000,
+          "price": 103.99563003612381,
+          "strength": 2,
+          "confirmed_index": 15
+        },
+        {
+          "kind": "LOW",
+          "index": 18,
+          "timestamp": 1794031200000,
+          "price": 96.05719130980053,
+          "strength": 2,
+          "confirmed_index": 20
+        },
+        {
+          "kind": "HIGH",
+          "index": 24,
+          "timestamp": 1794052800000,
+          "price": 103.89697332964784,
+          "strength": 2,
+          "confirmed_index": 26
+        },
+        {
+          "kind": "LOW",
+          "index": 29,
+          "timestamp": 1794070800000,
+          "price": 96.0220218585881,
+          "strength": 2,
+          "confirmed_index": 31
+        },
+        {
+          "kind": "HIGH",
+          "index": 34,
+          "timestamp": 1794088800000,
+          "price": 103.99937870042801,
+          "strength": 2,
+          "confirmed_index": 36
+        },
+        {
+          "kind": "LOW",
+          "index": 39,
+          "timestamp": 1794106800000,
+          "price": 96.03925332563806,
+          "strength": 2,
+          "confirmed_index": 41
+        },
+        {
+          "kind": "HIGH",
+          "index": 45,
+          "timestamp": 1794128400000,
+          "price": 103.86912778521351,
+          "strength": 2,
+          "confirmed_index": 47
+        },
+        {
+          "kind": "LOW",
+          "index": 50,
+          "timestamp": 1794146400000,
+          "price": 96.03590512772142,
+          "strength": 2,
+          "confirmed_index": 52
+        },
+        {
+          "kind": "HIGH",
+          "index": 55,
+          "timestamp": 1794164400000,
+          "price": 103.9997355803218,
+          "strength": 2,
+          "confirmed_index": 57
+        },
+        {
+          "kind": "LOW",
+          "index": 60,
+          "timestamp": 1794182400000,
+          "price": 96.02466343967065,
+          "strength": 2,
+          "confirmed_index": 62
+        },
+        {
+          "kind": "HIGH",
+          "index": 65,
+          "timestamp": 1794200400000,
+          "price": 103.89138615885227,
+          "strength": 2,
+          "confirmed_index": 67
+        },
+        {
+          "kind": "LOW",
+          "index": 71,
+          "timestamp": 1794222000000,
+          "price": 96.0531402812891,
+          "strength": 2,
+          "confirmed_index": 73
+        },
+        {
+          "kind": "HIGH",
+          "index": 76,
+          "timestamp": 1794240000000,
+          "price": 103.99670027223506,
+          "strength": 2,
+          "confirmed_index": 78
+        },
+        {
+          "kind": "LOW",
+          "index": 81,
+          "timestamp": 1794258000000,
+          "price": 96.01343815056445,
+          "strength": 2,
+          "confirmed_index": 83
+        },
+        {
+          "kind": "HIGH",
+          "index": 86,
+          "timestamp": 1794276000000,
+          "price": 103.91664737091362,
+          "strength": 2,
+          "confirmed_index": 88
+        },
+        {
+          "kind": "LOW",
+          "index": 92,
+          "timestamp": 1794297600000,
+          "price": 96.0737078292797,
+          "strength": 2,
+          "confirmed_index": 94
+        },
+        {
+          "kind": "HIGH",
+          "index": 97,
+          "timestamp": 1794315600000,
+          "price": 103.9902762085822,
+          "strength": 2,
+          "confirmed_index": 99
+        },
+        {
+          "kind": "LOW",
+          "index": 102,
+          "timestamp": 1794333600000,
+          "price": 96.00559015220189,
+          "strength": 2,
+          "confirmed_index": 104
+        },
+        {
+          "kind": "HIGH",
+          "index": 107,
+          "timestamp": 1794351600000,
+          "price": 103.93861035355103,
+          "strength": 2,
+          "confirmed_index": 109
+        },
+        {
+          "kind": "LOW",
+          "index": 113,
+          "timestamp": 1794373200000,
+          "price": 96.09758451331355,
+          "strength": 2,
+          "confirmed_index": 115
+        },
+        {
+          "kind": "HIGH",
+          "index": 118,
+          "timestamp": 1794391200000,
+          "price": 103.98047065388066,
+          "strength": 2,
+          "confirmed_index": 120
+        },
+        {
+          "kind": "LOW",
+          "index": 123,
+          "timestamp": 1794409200000,
+          "price": 96.00112831932708,
+          "strength": 2,
+          "confirmed_index": 125
+        },
+        {
+          "kind": "HIGH",
+          "index": 128,
+          "timestamp": 1794427200000,
+          "price": 103.95725027038685,
+          "strength": 2,
+          "confirmed_index": 130
+        },
+        {
+          "kind": "LOW",
+          "index": 134,
+          "timestamp": 1794448800000,
+          "price": 96.12474333294396,
+          "strength": 2,
+          "confirmed_index": 136
+        },
+        {
+          "kind": "HIGH",
+          "index": 139,
+          "timestamp": 1794466800000,
+          "price": 103.96729469653607,
+          "strength": 2,
+          "confirmed_index": 141
+        },
+        {
+          "kind": "LOW",
+          "index": 144,
+          "timestamp": 1794484800000,
+          "price": 96.00005769751003,
+          "strength": 2,
+          "confirmed_index": 146
+        },
+        {
+          "kind": "HIGH",
+          "index": 149,
+          "timestamp": 1794502800000,
+          "price": 103.97254604286259,
+          "strength": 2,
+          "confirmed_index": 151
+        },
+        {
+          "kind": "LOW",
+          "index": 154,
+          "timestamp": 1794520800000,
+          "price": 96.11434574602333,
+          "strength": 2,
+          "confirmed_index": 156
+        },
+        {
+          "kind": "HIGH",
+          "index": 160,
+          "timestamp": 1794542400000,
+          "price": 103.95076323630303,
+          "strength": 2,
+          "confirmed_index": 162
+        },
+        {
+          "kind": "LOW",
+          "index": 165,
+          "timestamp": 1794560400000,
+          "price": 96.00237949744094,
+          "strength": 2,
+          "confirmed_index": 167
+        },
+        {
+          "kind": "HIGH",
+          "index": 170,
+          "timestamp": 1794578400000,
+          "price": 103.98448037407522,
+          "strength": 2,
+          "confirmed_index": 172
+        },
+        {
+          "kind": "LOW",
+          "index": 175,
+          "timestamp": 1794596400000,
+          "price": 96.08839414938754,
+          "strength": 2,
+          "confirmed_index": 177
+        },
+        {
+          "kind": "HIGH",
+          "index": 181,
+          "timestamp": 1794618000000,
+          "price": 103.93089496743619,
+          "strength": 2,
+          "confirmed_index": 183
+        },
+        {
+          "kind": "LOW",
+          "index": 186,
+          "timestamp": 1794636000000,
+          "price": 96.0080910935611,
+          "strength": 2,
+          "confirmed_index": 188
+        },
+        {
+          "kind": "HIGH",
+          "index": 191,
+          "timestamp": 1794654000000,
+          "price": 103.9930397683369,
+          "strength": 2,
+          "confirmed_index": 193
+        },
+        {
+          "kind": "LOW",
+          "index": 196,
+          "timestamp": 1794672000000,
+          "price": 96.06573508107836,
+          "strength": 2,
+          "confirmed_index": 198
+        },
+        {
+          "kind": "HIGH",
+          "index": 202,
+          "timestamp": 1794693600000,
+          "price": 103.90771235755011,
+          "strength": 2,
+          "confirmed_index": 204
+        },
+        {
+          "kind": "LOW",
+          "index": 207,
+          "timestamp": 1794711600000,
+          "price": 96.01718602703203,
+          "strength": 2,
+          "confirmed_index": 209
+        },
+        {
+          "kind": "HIGH",
+          "index": 212,
+          "timestamp": 1794729600000,
+          "price": 103.99821454643642,
+          "strength": 2,
+          "confirmed_index": 214
+        },
+        {
+          "kind": "LOW",
+          "index": 217,
+          "timestamp": 1794747600000,
+          "price": 96.04639416462727,
+          "strength": 2,
+          "confirmed_index": 219
+        },
+        {
+          "kind": "HIGH",
+          "index": 223,
+          "timestamp": 1794769200000,
+          "price": 103.8812416222123,
+          "strength": 2,
+          "confirmed_index": 225
+        },
+        {
+          "kind": "LOW",
+          "index": 228,
+          "timestamp": 1794787200000,
+          "price": 96.02965401303918,
+          "strength": 2,
+          "confirmed_index": 230
+        },
+        {
+          "kind": "HIGH",
+          "index": 233,
+          "timestamp": 1794805200000,
+          "price": 103.99999885658461,
+          "strength": 2,
+          "confirmed_index": 235
+        },
+        {
+          "kind": "LOW",
+          "index": 238,
+          "timestamp": 1794823200000,
+          "price": 96.03039327130345,
+          "strength": 2,
+          "confirmed_index": 240
+        },
+        {
+          "kind": "HIGH",
+          "index": 243,
+          "timestamp": 1794841200000,
+          "price": 103.87977790194293,
+          "strength": 2,
+          "confirmed_index": 245
+        },
+        {
+          "kind": "LOW",
+          "index": 249,
+          "timestamp": 1794862800000,
+          "price": 96.04548095242247,
+          "strength": 2,
+          "confirmed_index": 251
+        },
+        {
+          "kind": "HIGH",
+          "index": 254,
+          "timestamp": 1794880800000,
+          "price": 103.99839068103185,
+          "strength": 2,
+          "confirmed_index": 256
+        },
+        {
+          "kind": "LOW",
+          "index": 259,
+          "timestamp": 1794898800000,
+          "price": 96.01775049538107,
+          "strength": 2,
+          "confirmed_index": 261
+        },
+        {
+          "kind": "HIGH",
+          "index": 264,
+          "timestamp": 1794916800000,
+          "price": 103.90641858409442,
+          "strength": 2,
+          "confirmed_index": 266
+        },
+        {
+          "kind": "LOW",
+          "index": 270,
+          "timestamp": 1794938400000,
+          "price": 96.06464894761986,
+          "strength": 2,
+          "confirmed_index": 272
+        },
+        {
+          "kind": "HIGH",
+          "index": 275,
+          "timestamp": 1794956400000,
+          "price": 103.99339183834967,
+          "strength": 2,
+          "confirmed_index": 277
+        },
+        {
+          "kind": "LOW",
+          "index": 280,
+          "timestamp": 1794974400000,
+          "price": 96.00848013367776,
+          "strength": 2,
+          "confirmed_index": 282
+        },
+        {
+          "kind": "HIGH",
+          "index": 285,
+          "timestamp": 1794992400000,
+          "price": 103.9297726038307,
+          "strength": 2,
+          "confirmed_index": 287
+        },
+        {
+          "kind": "LOW",
+          "index": 291,
+          "timestamp": 1795014000000,
+          "price": 96.08713632290656,
+          "strength": 2,
+          "confirmed_index": 293
+        },
+        {
+          "kind": "HIGH",
+          "index": 296,
+          "timestamp": 1795032000000,
+          "price": 103.98500798137434,
+          "strength": 2,
+          "confirmed_index": 298
+        }
+      ],
+      "events": [],
+      "liquidity_pools": [
+        {
+          "kind": "EQUAL_LOWS",
+          "side": "SELL_SIDE",
+          "level": 96.04235719,
+          "tolerance_pct": 0.25,
+          "swing_indices": [
+            8,
+            18,
+            29,
+            39,
+            50,
+            60,
+            71,
+            81,
+            92,
+            102,
+            113,
+            123,
+            134,
+            144,
+            154,
+            165,
+            175,
+            186,
+            196,
+            207,
+            217,
+            228,
+            238,
+            249,
+            259,
+            270,
+            280,
+            291
+          ],
+          "first_index": 8,
+          "last_index": 291,
+          "touches": 28,
+          "confirmed_index": 293
+        },
+        {
+          "kind": "EQUAL_HIGHS",
+          "side": "BUY_SIDE",
+          "level": 103.95285089,
+          "tolerance_pct": 0.25,
+          "swing_indices": [
+            3,
+            13,
+            24,
+            34,
+            45,
+            55,
+            65,
+            76,
+            86,
+            97,
+            107,
+            118,
+            128,
+            139,
+            149,
+            160,
+            170,
+            181,
+            191,
+            202,
+            212,
+            223,
+            233,
+            243,
+            254,
+            264,
+            275,
+            285,
+            296
+          ],
+          "first_index": 3,
+          "last_index": 296,
+          "touches": 29,
+          "confirmed_index": 298
+        }
+      ],
+      "liquidity_sweeps": [],
+      "fair_value_gaps": [],
+      "order_blocks": [],
+      "latest_swing_high": {
+        "kind": "HIGH",
+        "index": 296,
+        "timestamp": 1795032000000,
+        "price": 103.98500798137434,
+        "strength": 2,
+        "confirmed_index": 298
+      },
+      "latest_swing_low": {
+        "kind": "LOW",
+        "index": 291,
+        "timestamp": 1795014000000,
+        "price": 96.08713632290656,
+        "strength": 2,
+        "confirmed_index": 293
+      },
+      "interpretation": "Confirmed higher-high / higher-low swing structure.",
+      "errors": []
+    },
+    "directions": {
+      "BULLISH": {
+        "pass": false,
+        "checks": [
+          {
+            "rule": "sweep_before_close_confirmed_break",
+            "pass": false,
+            "evidence": {
+              "sweep": null,
+              "break": null
+            }
+          },
+          {
+            "rule": "linked_active_displacement_order_block",
+            "pass": false,
+            "evidence": []
+          },
+          {
+            "rule": "break_within_10_bars",
+            "pass": false,
+            "evidence": null
+          },
+          {
+            "rule": "sweep_extreme_not_closed_through",
+            "pass": false,
+            "evidence": null
+          },
+          {
+            "rule": "latest_structure_same_direction",
+            "pass": true,
+            "evidence": "BULLISH_STRUCTURE"
+          },
+          {
+            "rule": "higher_timeframe_not_opposed",
+            "pass": true,
+            "evidence": {
+              "bias": "NEUTRAL",
+              "last_close": 102.26692067721827,
+              "sma20": 99.96169989764851,
+              "sma50": 100.01990408509761,
+              "rule": "close > SMA20 > SMA50; reverse for bearish; otherwise neutral"
+            }
+          }
+        ]
+      },
+      "BEARISH": {
+        "pass": false,
+        "checks": [
+          {
+            "rule": "sweep_before_close_confirmed_break",
+            "pass": false,
+            "evidence": {
+              "sweep": null,
+              "break": null
+            }
+          },
+          {
+            "rule": "linked_active_displacement_order_block",
+            "pass": false,
+            "evidence": []
+          },
+          {
+            "rule": "break_within_10_bars",
+            "pass": false,
+            "evidence": null
+          },
+          {
+            "rule": "sweep_extreme_not_closed_through",
+            "pass": false,
+            "evidence": null
+          },
+          {
+            "rule": "latest_structure_same_direction",
+            "pass": false,
+            "evidence": "BULLISH_STRUCTURE"
+          },
+          {
+            "rule": "higher_timeframe_not_opposed",
+            "pass": true,
+            "evidence": {
+              "bias": "NEUTRAL",
+              "last_close": 102.26692067721827,
+              "sma20": 99.96169989764851,
+              "sma50": 100.01990408509761,
+              "rule": "close > SMA20 > SMA50; reverse for bearish; otherwise neutral"
+            }
+          }
+        ]
+      }
+    },
+    "conflict": false,
+    "valid": true,
+    "risk_scenario_candidates": {
+      "source": "OBSERVED_LEVELS_NOT_PRICE_FORECASTS",
+      "range": null,
+      "latest_swing_high": {
+        "kind": "HIGH",
+        "index": 296,
+        "timestamp": 1795032000000,
+        "price": 103.98500798137434,
+        "strength": 2,
+        "confirmed_index": 298
+      },
+      "latest_swing_low": {
+        "kind": "LOW",
+        "index": 291,
+        "timestamp": 1795014000000,
+        "price": 96.08713632290656,
+        "strength": 2,
+        "confirmed_index": 293
+      },
+      "usage": "Candidate invalidation levels only; user selects horizon and scenario. No probability assigned."
+    },
+    "interpretation_scope": "Heuristic scenario evidence; scores are not calibrated probabilities.",
+    "tapeout": {
+      "status": "NOT_REQUESTED",
+      "circuit_id": null
+    }
+  },
+  "tapeout": {
+    "status": "NOT_REQUESTED",
+    "circuit_id": null
+  }
+}
