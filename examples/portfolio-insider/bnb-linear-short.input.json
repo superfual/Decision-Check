@@ -1,0 +1,46 @@
+{
+  "schema": "portfolio-insider.input.v1",
+  "as_of": "2026-11-19T00:00:00Z",
+  "reporting_currency": "USD",
+  "data_source": "SELF_REPORTED",
+  "portfolio": {
+    "cash": [],
+    "spot": [],
+    "futures_accounts": [
+      {
+        "id": "futures",
+        "settlement_asset": "USDT",
+        "wallet_balance": "1000",
+        "available_margin": "1000",
+        "fx_rate": "1"
+      }
+    ],
+    "futures": []
+  },
+  "decision": {
+    "product": "LINEAR_FUTURES",
+    "intent": "OPEN_FUTURES",
+    "asset": "BNB",
+    "symbol": "BNBUSDT",
+    "venue": "Binance",
+    "position_id": null,
+    "funding_id": "futures",
+    "profile": "SWING",
+    "holding_horizon": "one month",
+    "proposed_amount": "100",
+    "loss_tolerance_pct": "10",
+    "entry_price": "600",
+    "stop_or_scenario_price": "700",
+    "cycle_price": "900",
+    "direction": "SHORT",
+    "leverage": "10"
+  },
+  "cycle": {
+    "anchor_id": "cycle-2026-11",
+    "anchor_as_of": "2026-11-19T00:00:00Z",
+    "anchor_nav": "1000",
+    "max_loss_pct": "20",
+    "external_flows_reconciled": true,
+    "prices": {}
+  }
+}

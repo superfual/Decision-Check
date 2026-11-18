@@ -47,8 +47,8 @@ Live data access must be validated on the target host. The static site imports r
 
 `decision_check/intake.py` implements the deterministic intake contract, source
 routing boundary and data gate; `decision_check/agents.py` defines independent
-analysis runners. Portfolio Insider's own runtime/account adapters and the
-TapeOut circuits remain unimplemented. These runners are not deployed circuits
+analysis runners. Portfolio Insider now has an offline Decimal-based analytical
+brain; account adapters and TapeOut circuits remain unimplemented. These runners are not deployed circuits
 or separate LLM services. Their common snapshot hash binds the input, not its
 authenticity. See [the intake architecture](docs/INDEPENDENT_AGENTS.md).
 
@@ -115,3 +115,18 @@ verify TapeOut circuits. See [free MVP scope](docs/FREE_MANUAL_MVP.md).
 ```sh
 node --test tests/manual-core.test.mjs
 ```
+
+## Portfolio Insider analytical brain
+
+[Brain specification (Vietnamese)](agents/portfolio-insider/BRAIN.vi.md) ·
+[Agent usage and scope](agents/portfolio-insider/README.md)
+
+```sh
+python3 -m decision_check.portfolio_insider examples/portfolio-insider/bnb-dca-negative.input.json --out /tmp/portfolio-report.json
+python3 -m unittest discover -s tests
+```
+
+The brain separates the loss budget of one proposed decision from whole-portfolio
+cycle risk against a fixed NAV anchor. It reports DCA cost/PnL, cash ratios,
+scenario bounds and linear futures notional sizing. Examples are synthetic.
+It is not wired into the hosted UI, exchange accounts, or deployed TapeOut circuits.

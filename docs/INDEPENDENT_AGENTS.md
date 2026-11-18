@@ -96,3 +96,12 @@ coverage, selected instrument mapping and user intent) before presenting this as
 an end-to-end customer workflow. Then expose an authenticated report service and
 migrate the three-language UI to the independent-agent schema. TapeOut numeric
 rule design and deployment follow those stable input/output contracts.
+
+## Portfolio brain implementation update
+
+`decision_check/portfolio_insider` now implements offline self-reported snapshot
+analysis and explicit market-data requests. See `agents/portfolio-insider/BRAIN.vi.md`.
+It does not yet automatically execute `run_plan` or authenticate supplied evidence.
+The adapter remains responsible for mapping validated snapshot evidence into the
+brain's report contract. Fixed upstream H4/H1 analysis must not be presented as
+full support for the requested CYCLE/SWING/INTRADAY profiles.

@@ -1,0 +1,171 @@
+{
+  "schema": "portfolio-insider.report.v1",
+  "agent_id": "portfolio-insider.brain.v1",
+  "status": "ANALYTICAL_REVIEW_ONLY",
+  "as_of": "2026-11-19T00:00:00Z",
+  "reporting_currency": "USD",
+  "input_sha256": "32fe1315216bc64c54a9e5e0a849116e29d3e422d23e5b87f3c50d50e9fa2b48",
+  "data_source": "SELF_REPORTED",
+  "current": {
+    "nav": "1000",
+    "cash_value": "0",
+    "cash_pct": "0",
+    "available_cash": "0",
+    "cash_buckets": [],
+    "spot_unrealized_pnl": "0",
+    "spot_unrealized_pnl_pct_of_cost": null,
+    "futures_unrealized_pnl": "0",
+    "futures_account_equity": {
+      "futures": "1000"
+    },
+    "positions": []
+  },
+  "net_directional_exposure_pct_nav": {},
+  "risk_contract": {
+    "cycle_anchor_id": "cycle-2026-11",
+    "cycle_anchor_as_of": "2026-11-19T00:00:00Z",
+    "cycle_anchor_nav": "1000",
+    "cycle_max_loss_pct": "20",
+    "cycle_nav_floor": "800",
+    "current_nav_drawdown_pct_from_anchor": "0",
+    "baseline_cycle_scenario_nav": "1000",
+    "cycle_scenario_headroom": "200",
+    "decision_requested_amount": "100",
+    "decision_loss_tolerance_pct": "10",
+    "decision_loss_budget_frozen": "10",
+    "loss_buffer_pct": "0"
+  },
+  "sizing": {
+    "caps": {
+      "decision": "60",
+      "cycle": "400",
+      "requested": "100",
+      "funding_or_margin_estimate": "10000"
+    },
+    "bounded_amount": "60",
+    "binding_limits": [
+      "decision"
+    ]
+  },
+  "hold_unchanged": {
+    "cycle_scenario_nav": "1000"
+  },
+  "requested": {
+    "amount": "100",
+    "quantity": "0.16666666666666666666666666666666666666666666666667",
+    "decision_loss": "16.666666666666666666666666666666666666666666666667",
+    "decision_loss_pct_of_requested": "16.666666666666666666666666666666666666666666666667",
+    "cycle_scenario_nav": "950",
+    "cycle_drawdown_pct_from_anchor": "5",
+    "additional_decline_pct_from_current_nav": "5",
+    "gates": {
+      "decision": false,
+      "cycle": true,
+      "anchor_not_already_breached": true,
+      "funding_or_margin_estimate": true
+    },
+    "risk_limits_met": false,
+    "estimated_initial_margin_quote": "10",
+    "futures_after": {
+      "quantity": "0.16666666666666666666666666666666666666666666666667",
+      "average_entry": "599.99999999999999999999999999999999999999999999999",
+      "unrealized_pnl": "0",
+      "direction": "LONG",
+      "cycle_unrealized_pnl": "-49.999999999999999999999999999999999999999999999999",
+      "margin_safety": "UNKNOWN_NOT_A_LIQUIDATION_CHECK",
+      "stop_status": "HYPOTHETICAL_NOT_PLACED"
+    }
+  },
+  "bounded": {
+    "amount": "60",
+    "quantity": "0.1",
+    "decision_loss": "10",
+    "decision_loss_pct_of_requested": "10",
+    "cycle_scenario_nav": "970",
+    "cycle_drawdown_pct_from_anchor": "3",
+    "additional_decline_pct_from_current_nav": "3",
+    "gates": {
+      "decision": true,
+      "cycle": true,
+      "anchor_not_already_breached": true,
+      "funding_or_margin_estimate": true
+    },
+    "risk_limits_met": true,
+    "estimated_initial_margin_quote": "6",
+    "futures_after": {
+      "quantity": "0.1",
+      "average_entry": "600",
+      "unrealized_pnl": "0",
+      "direction": "LONG",
+      "cycle_unrealized_pnl": "-30",
+      "margin_safety": "UNKNOWN_NOT_A_LIQUIDATION_CHECK",
+      "stop_status": "HYPOTHETICAL_NOT_PLACED"
+    }
+  },
+  "market_evidence": {
+    "status": "NOT_RUN",
+    "agreement": "UNKNOWN"
+  },
+  "market_request": {
+    "asset": "BNB",
+    "symbol": "BNBUSDT",
+    "venue": "Binance",
+    "product": "LINEAR_FUTURES",
+    "profile": "SWING",
+    "holding_horizon": "one month",
+    "requested_timeframes": [
+      "1d",
+      "4h",
+      "1h"
+    ],
+    "status": "PROPOSED_NOT_FETCHED"
+  },
+  "findings": [
+    {
+      "code": "SELF_REPORTED_SCOPE",
+      "severity": "INFO"
+    },
+    {
+      "code": "TWO_RISK_BASES",
+      "severity": "INFO",
+      "decision_base": "100",
+      "cycle_base": "1000"
+    },
+    {
+      "code": "SCENARIOS_NOT_PROBABILITIES",
+      "severity": "INFO"
+    },
+    {
+      "code": "REQUEST_EXCEEDS_BOUND",
+      "severity": "REVIEW",
+      "requested": "100",
+      "bounded": "60"
+    },
+    {
+      "code": "MARGIN_AND_LIQUIDATION_UNVERIFIED",
+      "severity": "REVIEW"
+    },
+    {
+      "code": "MARKET_CONFIRMATION_INCOMPLETE_OR_CONFLICTING",
+      "severity": "REVIEW"
+    }
+  ],
+  "tapeout": {
+    "status": "NOT_REQUESTED",
+    "circuit_id": null,
+    "candidate_checks": [
+      "decision_loss <= frozen_budget",
+      "cycle_nav >= fixed_nav_floor"
+    ]
+  },
+  "limitations": [
+    "User-supplied snapshot; not full ledger reconciliation.",
+    "All other positions require explicit cycle prices; cash FX rates held fixed in scenarios.",
+    "Cycle anchor must already be adjusted for external flows; no automatic reset.",
+    "Risk bounds apply to supplied scenarios only, not guaranteed losses.",
+    "Loss buffer is a stress allowance, not booked execution fees.",
+    "Futures mark-to-market scenarios ignore liquidation, funding and venue margin rules.",
+    "Net directional exposure is not a correlation model or hedge guarantee.",
+    "No source authentication, LLM probability, order, account connection or circuit execution."
+  ]
+}

@@ -11,7 +11,7 @@
 
 ## Current implementation
 
-Three-language static UI with sample calculation and imported agent reports. The Python pipeline supports public market snapshots and local SQLite/replay. A separate intake contract now gates two independent deterministic analysis agents on a shared validated snapshot. The legacy v1 combined report is retained for replay. Hosted analysis API, Portfolio Insider runtime, private account connections and Decision Check circuits are not deployed. See INDEPENDENT_AGENTS.md.
+Three-language static UI with sample calculation and imported agent reports. The Python pipeline supports public market snapshots and local SQLite/replay. A separate intake contract now gates two independent deterministic analysis agents on a shared validated snapshot. The legacy v1 combined report is retained for replay. Portfolio Insider has a local deterministic analytical runtime (see agents/portfolio-insider). Hosted analysis API, private account connections and Decision Check circuits are not deployed. See INDEPENDENT_AGENTS.md.
 
 ## Sample portfolio rule
 
