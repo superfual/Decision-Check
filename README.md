@@ -63,6 +63,8 @@ Passing rules does not guarantee profitability. A circuit cannot by itself authe
 
 - [Development roadmap](docs/ROADMAP.md)
 - [Architecture and verification](docs/ARCHITECTURE.md)
+- [Hybrid DeWeb and Verifiable Decision Engine proposal (VI)](docs/HYBRID_DEWEB.vi.md)
+- [Agentic Coding workflow and repository skills (VI)](docs/AGENTIC_CODING.vi.md)
 - [Tiếng Việt](docs/OVERVIEW.vi.md)
 - [简体中文](docs/OVERVIEW.zh.md)
 
