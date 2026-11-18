@@ -17,3 +17,9 @@ Số lượng stablecoin khả dụng nhập riêng. Mỗi tài sản/vị thế
 UI hỏi mức lỗ tối đa chấp nhận trước khi cắt lỗ theo % giá vốn bình quân (Spot) hoặc entry (Futures), không gọi là “giá kịch bản chu kỳ”. Hệ thống tự đổi ra giá: long/spot = giá vốn × (1 − tỷ lệ); short = entry × (1 + tỷ lệ). Ví dụ OKB giá vốn 100, chịu lỗ 40% thì giá tương ứng 60. Phần trăm này không phải ROI ký quỹ hoặc tỷ lệ giảm NAV; ngân sách toàn danh mục vẫn được kiểm tra riêng. Nếu hiện giá đã vượt ngưỡng này, không được coi ngưỡng phía có lợi hơn hiện tại là rủi ro tương lai. UI đánh dấu đã chạm và không duyệt phương án mới.
 
 Bỏ ô nhập PnL đã thực hiện. UI chỉ tính PnL chưa thực hiện từ số lượng, giá vốn bình quân/entry và hiện giá; hiển thị số tiền cùng tỷ lệ. Ngưỡng cắt lỗ chỉ là đầu vào phân tích, không đặt lệnh hoặc bảo đảm giá khớp.
+
+## Luồng bắt buộc từ Portfolio Insider
+
+Trang chính chỉ có điểm bắt đầu Portfolio Insider Agent. Sau phân tích hợp lệ (không cần mọi giới hạn rủi ro đều đạt), user mới nhấn tiếp tục để chuyển hồ sơ. Mở thẳng trang thị trường khi chưa có hồ sơ chỉ hiện hướng dẫn quay về bước đầu.
+
+Hồ sơ chuyển khi user nhấn tiếp tục, qua sessionStorage cùng tab và hết hạn sau 30 phút; không đưa danh mục lên URL hoặc máy chủ. Sửa input xóa hồ sơ chuyển bước cũ. Đây là kiểm soát luồng giao diện, không phải cơ chế phân quyền hay xác thực dữ liệu. Tài sản, sản phẩm, profile, hướng và danh mục được lấy nguyên từ kế hoạch. Sàn ngoài Binance báo chưa hỗ trợ, không tự thay nguồn.

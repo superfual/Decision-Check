@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {createHandoff,readHandoff} from '../site/workflow.mjs';
+const record=()=>({input:{schema:'portfolio-insider.input.v1',decision:{asset:'BNB',symbol:'BNBUSDT',product:'SPOT',profile:'SWING'}},report:{status:'ANALYTICAL_REVIEW_ONLY',requested:{risk_limits_met:false}}});
+test('no incomplete or malformed handoff can skip intake',()=>{assert.throws(()=>createHandoff(null));assert.equal(readHandoff(null),null);assert.equal(readHandoff('{'),null);const r=record();r.report.status='NEEDS_DATA_OR_UNSUPPORTED';assert.throws(()=>createHandoff(r));});
+test('completed analysis passes the actual plan even if a risk limit is unmet',()=>{const r=record();assert.deepEqual(readHandoff(JSON.stringify(createHandoff(r,1000)),2000),r);});
+test('expired, future-dated or mismatched scope does not reopen market analysis',()=>{const r=record();assert.equal(readHandoff(JSON.stringify(createHandoff(r,1000)),2000000),null);assert.equal(readHandoff(JSON.stringify(createHandoff(r,3000)),2000),null);r.input.decision.symbol='BTCUSDT';assert.throws(()=>createHandoff(r));});
