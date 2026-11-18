@@ -64,3 +64,12 @@ TapeOut integration is a proposed next layer: encode precise numeric comparisons
 retain inputs/rule version and independently replay. No Decision Check circuit
 is deployed or called by this agent. Wyckoff/SMC remain independent existing
 runners; requested timeframe profiles do not upgrade their current H4/H1 logic.
+
+## Browser integration
+
+Open `site/brain.html?lang=vi` (also en/zh). The page loads pinned Pyodide
+0.27.7 from jsDelivr and runs the exact Python brain locally, with Decimal
+semantics. First use requires a runtime download. Portfolio inputs are not sent
+to a server. Runtime loading errors are displayed rather than returning a pass.
+Simple fields plus full JSON input support the synthetic DCA/futures examples.
+Wyckoff/SMC and TapeOut are not called by this page.

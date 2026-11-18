@@ -1,0 +1,55 @@
+{
+  "schema": "portfolio-insider.input.v1",
+  "as_of": "2026-11-19T00:00:00Z",
+  "reporting_currency": "USD",
+  "data_source": "SELF_REPORTED",
+  "portfolio": {
+    "cash": [
+      {
+        "id": "cash-usd",
+        "asset": "USD",
+        "amount": "700",
+        "available_amount": "700",
+        "fx_rate": "1"
+      }
+    ],
+    "spot": [
+      {
+        "id": "bnb",
+        "asset": "BNB",
+        "venue": "Binance",
+        "quantity": "0.5",
+        "price": "600",
+        "cost_basis": "400"
+      }
+    ],
+    "futures_accounts": [],
+    "futures": []
+  },
+  "decision": {
+    "product": "SPOT",
+    "intent": "ADD_SPOT",
+    "asset": "BNB",
+    "symbol": "BNBUSDT",
+    "venue": "Binance",
+    "position_id": "bnb",
+    "funding_id": "cash-usd",
+    "profile": "SWING",
+    "holding_horizon": "one month",
+    "proposed_amount": "100",
+    "loss_tolerance_pct": "10",
+    "entry_price": "600",
+    "stop_or_scenario_price": "500",
+    "cycle_price": "300"
+  },
+  "cycle": {
+    "anchor_id": "cycle-2026-11",
+    "anchor_as_of": "2026-11-19T00:00:00Z",
+    "anchor_nav": "1000",
+    "max_loss_pct": "20",
+    "external_flows_reconciled": true,
+    "prices": {
+      "bnb": "300"
+    }
+  }
+}
