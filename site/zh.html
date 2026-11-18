@@ -6,24 +6,11 @@
 <style>
 *{box-sizing:border-box}body{margin:0;background:#071b17;color:#e4efeb;font:16px/1.65 system-ui,sans-serif}a{color:#8ce6bf}button,input,select{font:inherit}header,main,footer{max-width:1180px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #29443b}.brand{font-weight:750;letter-spacing:.05em}.badge,.eyebrow{font-size:12px;letter-spacing:.12em;color:#91d9b8;text-transform:uppercase}.badge{border:1px solid #396453;border-radius:30px;padding:6px 12px}h1{font-size:clamp(35px,5.2vw,66px);line-height:1.12;letter-spacing:-.045em;max-width:850px;margin:20px 0}h1 em{font-style:normal;color:#86ddb4}h2{font-size:28px;line-height:1.25}h3{font-size:18px;margin:0 0 12px}p{color:#b4c9bf}.hero{padding:38px 0 30px}.hero p{max-width:770px}.actions{display:flex;gap:15px;flex-wrap:wrap;margin-top:24px}.btn,button{display:inline-block;background:#9ee5bf;color:#08291d;border:0;border-radius:9px;padding:11px 20px;text-decoration:none;font-weight:700;cursor:pointer}button:hover,.btn:hover{background:#c1f5d6}.subtle{background:#17392d;color:#dbefe2;border:1px solid #396453}.strip{display:flex;gap:28px;flex-wrap:wrap;padding:20px 0;border-top:1px solid #29443b;border-bottom:1px solid #29443b;font-size:14px}.strip b{color:#9ee5bf}.grid{display:grid;grid-template-columns:1.15fr 1fr;gap:24px;margin:25px 0}.panel{background:linear-gradient(140deg,#113328,#0b241d);border:1px solid #345345;border-radius:18px;padding:24px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}label{display:block;color:#bfd3c8;font-size:13px}input,select{display:block;width:100%;margin-top:6px;background:#061b14;color:#f0f8f2;border:1px solid #52735f;border-radius:7px;padding:10px;min-height:46px}input:focus,select:focus{outline:2px solid #99dfb8}.span{grid-column:1/-1}.note{font-size:13px;color:#acc4b5}.checks{list-style:none;padding:0;margin:20px 0}.checks li{padding:12px 0;border-bottom:1px solid #355345;display:flex;justify-content:space-between;gap:15px}.ok{color:#99e9b8}.bad{color:#ffb8a2}.unknown{color:#e4d499}.decision{border-left:4px solid #99e9b8;padding:8px 16px;background:#061c15;margin:18px 0}.decision.block{border-color:#ffb8a2}.decision h3{font-size:21px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{background:#092219;border-radius:9px;padding:12px}.stat small{display:block;color:#adc5b6}.stat b{font-size:23px}.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0}.step{border-top:2px solid #729984;padding:18px;background:#0b261d;border-radius:0 0 10px 10px}.step b{color:#95e3b5}.step p{font-size:14px}details{border-bottom:1px solid #355345;padding:16px 0}summary{cursor:pointer;font-weight:650}section{scroll-margin-top:20px}footer{font-size:13px;border-top:1px solid #29443b;color:#a7bdb0;margin-top:30px}output{display:block}.error{color:#ffc1ae}nav a{text-decoration:none;font-size:14px}button:focus-visible,a:focus-visible{outline:3px solid #e4d499;outline-offset:4px}@media(max-width:760px){header,main,footer{padding:18px}.grid,.flow{grid-template-columns:1fr}.hero{padding-top:26px}.panel{padding:18px}.fields{gap:12px}.strip{gap:12px}nav{display:none}}@media(max-width:380px){.fields,.stats{grid-template-columns:1fr}.span{grid-column:auto}}
 .languages{display:flex;gap:5px}.languages a{padding:6px 9px;border:1px solid #52735f;border-radius:6px;text-decoration:none;font-size:13px}.languages a[aria-current]{background:#9ee5bf;color:#08291d}header{flex-wrap:wrap;gap:12px}</style>
-<header><div class="brand">DECISION CHECK</div><div class="languages" aria-label="Language"><a href="en.html" lang="en">EN</a><a href="vi.html" lang="vi">VI</a><a aria-current="page" href="zh.html" lang="zh-Hans">中文</a></div><nav><a href="#demo">体验概念 ↗</a></nav><span class="badge">概念原型</span></header>
+<header><div class="brand">DECISION CHECK</div><div class="languages" aria-label="Language"><a href="en.html" lang="en">EN</a><a href="vi.html" lang="vi">VI</a><a aria-current="page" href="zh.html" lang="zh-Hans">中文</a></div><nav></nav><span class="badge">概念原型</span></header>
 <main><section class="agent-launcher" aria-label="Start" style="padding:22px;margin:18px 0 28px;background:#113d2d;border:1px solid #80b69a;border-radius:16px;color:#f4fff7"><h2 style="font-size:22px;margin:0 0 14px;color:#f4fff7">从 Portfolio Insider Agent 开始</h2><a style="display:inline-block;padding:12px 20px;background:#b7f3d1;color:#092e20;border-radius:9px;text-decoration:none;font-weight:750" href="manual.html?lang=zh">Portfolio Insider Agent →</a></section>
-<section class="hero"><span class="eyebrow">Wyckoff × SMC × 投资组合 · 面向 X Layer 与 TapeOut 的提案</span><h1>市场出现机会。<br><em>你的投资组合准备好了吗？</em></h1><p>加仓前的检查站：智能体寻找市场证据，投资组合计算器评估方案，拟议的 TapeOut 电路检查公开规则。</p><div class="actions"><a class="btn" href="#demo">探索演示 ↓</a><a class="btn subtle" href="https://github.com/superfual/Wyckoff-smc-swing-agent" target="_blank" rel="noopener">基础智能体 ↗</a></div></section>
+<section class="hero"><span class="eyebrow">Wyckoff × SMC × 投资组合 · 面向 X Layer 与 TapeOut 的提案</span><h1>市场出现机会。<br><em>你的投资组合准备好了吗？</em></h1><p>加仓前的检查站：智能体寻找市场证据，投资组合计算器评估方案，拟议的 TapeOut 电路检查公开规则。</p><div class="actions"><a class="btn subtle" href="https://github.com/superfual/Wyckoff-smc-swing-agent" target="_blank" rel="noopener">基础智能体 ↗</a></div></section>
 <div class="strip"><span><b>已有基础：</b> 作者的 Wyckoff–SMC 智能体</span><span><b>本页面：</b> 浏览器本地模拟</span><span><b>尚未接入：</b> 本概念的账户与电路</span></div>
-<p><a class="btn subtle" href="report.html?lang=zh">查看智能体报告 ↗</a></p><section id="demo"><h2>测试加仓方案</h2><p>修改金额和信号，观察规则反馈。所有数字均为手动输入的示例，并非实时价格或账户数据。</p>
-<div class="grid"><form id="form" class="panel"><h3>01 / 示例输入</h3><div class="fields">
-<label>Wyckoff · 示例条件<select id="w"><option value="1">满足条件</option><option value="0">未满足条件</option><option value="?">数据不足</option></select></label>
-<label>SMC · 示例条件<select id="s"><option value="1">满足条件</option><option value="0">未满足条件</option><option value="?">数据不足</option></select></label>
-<label>当前持有数量<input id="qty" type="number" min="0" step="any" value="5" required></label>
-<label>剩余持仓成本（USD）<input id="cost" type="number" min="0" step="any" value="5000" required></label>
-<label>假设单价（USD）<input id="price" type="number" min="0.000001" step="any" value="800" required></label>
-<label>现金（USD）<input id="cash" type="number" min="0" step="any" value="6000" required></label>
-<label>其他资产价值（USD）<input id="other" type="number" min="0" step="any" value="0" required></label>
-<label>计划加仓金额（USD）<input id="buy" type="number" min="0.01" step="any" value="2000" required></label>
-<label>最低现金储备（USD）<input id="reserve" type="number" min="0" step="any" value="3000" required></label>
-<label>该资产最高配置比例（%）<input id="limit" type="number" min="0" max="100" step="any" value="40" required></label>
-</div><p class="note">假设为现货、无借贷，并按输入价格成交。不计手续费、滑点和卖出交易。</p><button type="submit">检查示例规则 →</button><p id="error" role="alert" class="error"></p></form>
-<div class="panel"><h3>02 / 结果与解释</h3><span class="badge">本地模拟 · 未调用 TapeOut</span><output id="result" aria-live="polite"></output><button id="export" class="subtle" type="button">下载示例记录 ↓</button><p class="note">JSON 记录是模拟结果，并非链上证明。通过规则检查不保证交易盈利。</p></div></div></section>
+<p><a class="btn subtle" href="report.html?lang=zh">查看智能体报告 ↗</a></p>
 <section><span class="eyebrow">拟议架构</span><h2>每个组件各司其职。</h2><div class="flow">
 <div class="step"><b>01 · 智能体分析</b><p>价格与成交量 → Wyckoff/SMC 证据。每项判断需要时间戳、数据来源和规则版本。本页面尚未直接调用智能体。</p></div>
 <div class="step"><b>02 · TapeOut 检查</b><p>优先构建储备金与配置比例的数值比较电路，再与信号组合。部署前须完成设计、成本评估和验证。</p></div>
@@ -36,28 +23,4 @@
 <details><summary>后续方向</summary><p>1. 规范智能体输出与只读投资组合数据。2. 测试盈亏计算器。3. 构建并验证数值电路。4. 让用户重跑报告。自动交易执行属于独立范围。</p></details>
 </section>
 </main><footer>用于讨论的概念原型 · 不发送交易、不索取 API 密钥、不在服务器保存输入数据。<br>独立于 TapeOut 协议。不声称是生态中的首个或唯一产品。</footer>
-<script>
-let receipt;
-const ids=['qty','cost','price','cash','other','buy','reserve','limit'];
-const money=n=>n.toLocaleString('zh-CN',{style:'currency',currency:'USD',maximumFractionDigits:2});
-function evaluate(x,w,s){
- const current=x.qty*x.price,nav=current+x.cash+x.other,postCash=x.cash-x.buy,weight=nav>0?(current+x.buy)/nav*100:Infinity;
- const checks=[['Wyckoff',w==='?'?null:w==='1'],['SMC',s==='?'?null:s==='1'],['购买资金充足',x.buy<=x.cash],['保留足够储备',postCash>=x.reserve],['未超配置上限',weight<=x.limit+1e-9]];
- const status=checks.some(c=>c[1]===false)?'blocked':checks.some(c=>c[1]===null)?'unknown':'pass';
- return {status,checks,postCash,weight,pnl:current-x.cost,oldAverage:x.qty?x.cost/x.qty:null,newAverage:(x.cost+x.buy)/(x.qty+x.buy/x.price)};
-}
-function render(){
- if(!document.querySelector('#form').reportValidity())return;
- const x=Object.fromEntries(ids.map(id=>[id,Number(document.getElementById(id).value)]));
- const e=document.getElementById('error');e.textContent='';
- if(Object.values(x).some(v=>!Number.isFinite(v))||x.qty===0&&x.cost!==0){e.textContent='请输入有效数值。持有数量为零时，剩余成本也必须为零。';return}
- const w=document.getElementById('w').value,s=document.getElementById('s').value,r=evaluate(x,w,s);
- if(![r.postCash,r.weight,r.pnl,r.newAverage].every(Number.isFinite)){e.textContent='数值超出本演示的计算范围。';return}
- receipt={schema:'decision-check-concept.v1',mode:'LOCAL_SIMULATION_NOT_ONCHAIN',ruleVersion:'sample-1',createdAt:new Date().toISOString(),inputs:{...x,wyckoff:w,smc:s},result:r,assumptions:['spot, no debt','no fees or slippage','user supplied data'],circuitId:null};
- const title={blocked:'尚未满足加仓条件',unknown:'数据不足，无法判断',pass:'满足示例条件'}[r.status];
- document.getElementById('result').innerHTML='<div class="decision '+(r.status==='pass'?'':'block')+'"><h3>'+title+'</h3><span>'+r.checks.filter(c=>c[1]!==true).map(c=>c[0]).join(' · ')+'</span></div><div class="stats"><div class="stat"><small>当前未实现盈亏</small><b>'+money(r.pnl)+'</b></div><div class="stat"><small>当前平均成本</small><b>'+(r.oldAverage===null?'—':money(r.oldAverage))+'</b></div><div class="stat"><small>假设买入后现金</small><b>'+money(r.postCash)+'</b></div><div class="stat"><small>假设买入后配置比例</small><b>'+r.weight.toFixed(1)+'%</b></div><div class="stat span"><small>假设买入后平均成本（未计手续费）</small><b>'+money(r.newAverage)+'</b></div></div><ul class="checks">'+r.checks.map(c=>'<li><span>'+c[0]+'</span><strong class="'+(c[1]===null?'unknown':c[1]?'ok':'bad')+'">'+(c[1]===null?'UNKNOWN':c[1]?'TRUE':'FALSE')+'</strong></li>').join('')+'</ul>';
-}
-document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();render()});
-document.getElementById('export').onclick=()=>{render();if(document.getElementById('error').textContent||!document.getElementById('form').checkValidity()||!receipt)return;const u=URL.createObjectURL(new Blob([JSON.stringify(receipt,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=u;a.download='decision-concept.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
-render();
-</script></html>
+</html>
