@@ -103,8 +103,8 @@ See [Data sources and operations](docs/DATA_SOURCES.md) for boundaries and conne
 
 ## Free manual Portfolio Insider check
 
-Open `site/manual.html?lang=vi` (also `en` / `zh`). The free scope is one spot
-asset or one existing linear USDT futures position per check, with an explicit
+Open `site/manual.html?lang=vi` (also `en` / `zh`). The free form now supports multiple spot assets, stablecoin balances and linear
+USDT futures positions, followed by a separate new/additional investment plan with an explicit
 intent and holding horizon. Inputs stay in page memory; JSON export is local.
 No account synchronization, API credentials, LLM request or trade is involved.
 
