@@ -38,6 +38,15 @@ class BrainTests(unittest.TestCase):
         self.assertEqual(r['status'],'ANALYTICAL_REVIEW_ONLY',r)
         return r
 
+    def test_limit_fill_is_hypothetical_and_preserves_current_nav(self):
+        x=bnb();x['decision'].update(entry_mode='LIMIT',entry_price='550',stop_or_scenario_price='450')
+        r=self.run_brain(x)
+        self.assertEqual(D(r['current']['nav']),1000)
+        self.assertEqual(x['portfolio']['spot'][0]['price'],'600')
+        x['decision']['entry_mode']='MARKET'
+        r=PortfolioInsiderAgent().run(x)
+        self.assertNotEqual(r['status'],'ANALYTICAL_REVIEW_ONLY')
+
     def test_bnb_dca_negative_and_two_gates(self):
         r=self.run_brain(bnb())
         self.assertEqual(D(r['current']['nav']),1000)

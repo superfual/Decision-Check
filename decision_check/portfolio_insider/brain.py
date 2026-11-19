@@ -285,7 +285,9 @@ def _run(data):
             existing = next((p for p in spots if p['id'] == existing_id), None)
             if existing is None or (existing['asset'], existing['venue']) != (asset, venue):
                 raise PortfolioInputError('POSITION_SCOPE_MISMATCH')
-            if existing['price'] != entry:
+            if d.get('entry_mode', 'MARKET') not in ('MARKET', 'LIMIT'):
+                raise PortfolioInputError('UNSUPPORTED_ENTRY_MODE')
+            if d.get('entry_mode', 'MARKET') != 'LIMIT' and existing['price'] != entry:
                 raise PortfolioInputError('ENTRY_NOT_CURRENT_REFERENCE')
             if positive(cycle['prices'][existing_id], 'cycle.selected_price') != cycle_price:
                 raise PortfolioInputError('CYCLE_SCENARIO_INCONSISTENT')
