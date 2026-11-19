@@ -38,6 +38,39 @@ class BrainTests(unittest.TestCase):
         self.assertEqual(r['status'],'ANALYTICAL_REVIEW_ONLY',r)
         return r
 
+    def cash_case(self):
+        x=bnb();x['decision'].update(proposed_amount='600',loss_tolerance_pct='90',stop_or_scenario_price='590',minimum_cash_pct='20')
+        x['cycle']['max_loss_pct']='99'
+        return x
+
+    def test_cash_ratio_caps_purchase_at_selected_percentage(self):
+        r=self.run_brain(self.cash_case())
+        self.assertEqual(D(r['sizing']['caps']['cash_safety']),500)
+        self.assertEqual(D(r['sizing']['bounded_amount']),500)
+        self.assertFalse(r['requested']['gates']['cash_safety'])
+        self.assertTrue(r['bounded']['gates']['cash_safety'])
+        self.assertEqual(D(r['bounded']['cash_ratio_after_purchase_pct']),20)
+
+    def test_cash_ratio_is_adjustable_and_not_fixed_at_twenty(self):
+        x=self.cash_case();x['decision']['minimum_cash_pct']='30'
+        self.assertEqual(D(self.run_brain(x)['sizing']['caps']['cash_safety']),400)
+        x['decision']['minimum_cash_pct']='10'
+        self.assertEqual(D(self.run_brain(x)['sizing']['caps']['cash_safety']),600)
+
+    def test_existing_cash_below_target_allows_no_additional_purchase(self):
+        x=self.cash_case();x['decision']['minimum_cash_pct']='80'
+        r=self.run_brain(x)
+        self.assertEqual(D(r['sizing']['bounded_amount']),0)
+        self.assertFalse(r['bounded']['gates']['cash_safety'])
+
+    def test_cash_ratio_accounts_for_fee_buffer_and_invalid_percent(self):
+        x=self.cash_case();x['decision']['loss_buffer_pct']='1'
+        r=self.run_brain(x)
+        self.assertGreaterEqual(D(r['bounded']['cash_ratio_after_purchase_pct']),20)
+        self.assertLess(D(r['sizing']['bounded_amount']),500)
+        x['decision']['minimum_cash_pct']='101'
+        self.assertNotEqual(PortfolioInsiderAgent().run(x)['status'],'ANALYTICAL_REVIEW_ONLY')
+
     def test_limit_fill_is_hypothetical_and_preserves_current_nav(self):
         x=bnb();x['decision'].update(entry_mode='LIMIT',entry_price='550',stop_or_scenario_price='450')
         r=self.run_brain(x)
