@@ -53,3 +53,10 @@ Acceptance: the same pinned deterministic computation can be reproduced. Changes
 - Measure latency and concurrent usage before scaling infrastructure.
 
 Automated execution, custody and token issuance are separate scopes. Containers and DeWEB are optional research directions, not prerequisites.
+
+
+## Portfolio Insider: unified multi-exchange portfolio (future phase)
+
+The current public Spot pilot uses one shared exchange and manual holdings. The proposed amount is user-entered; funding choices come only from the stablecoins entered in the portfolio, with available quantities.
+
+A future production version should aggregate the investor's authorized read-only balances across supported exchanges, normalize asset identity and USD valuations, reconcile transfers to avoid double counting, and report portfolio health across all accounts: total NAV, cash/stablecoin share, concentration, average costs, unrealized PnL and risk-budget usage. Report source coverage, timestamps and incomplete accounts. Exchange connectors and permissions must be implemented and verified before claiming synchronization is available. No withdrawal, trading or order-execution permissions are needed for this analytical scope.
