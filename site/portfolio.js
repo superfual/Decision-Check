@@ -102,7 +102,7 @@ function initSharedRisk(){
  // The decision amount and its tolerance now live together in the plan fields.
  $('risk-title').textContent=lang==='vi'?'Giới hạn bảo vệ tổng danh mục':lang==='zh'?'整体投资组合保护限额':'Whole-portfolio protection limits';
  const explanation=$('risk-title').nextElementSibling;
- if(explanation?.tagName==='P')explanation.textContent=lang==='vi'?'Khẩu vị theo giá vốn đã nhập một lần ở mục 01. Giới hạn NAV dưới đây bảo vệ tổng danh mục, có cơ sở tính khác nên được đặt riêng.':lang==='zh'?'第01步已统一设置成本风险偏好。下方净资产限额针对整个组合，计算基准不同，因此单独设置。':'Cost-based risk tolerance is entered once in Step 01. The NAV limit below protects the whole portfolio on a different calculation basis and remains separate.';
+ if(explanation?.tagName==='P')explanation.remove();
  input.addEventListener('input',()=>{cycle.value=input.value;});
 }
 
