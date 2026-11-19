@@ -10,6 +10,10 @@ A concept-stage tool combining Wyckoff–SMC market evidence, portfolio accounti
 
 Retail investors need to inspect the evidence behind signals, reconcile their cost basis and PnL, and determine whether buying more fits their own risk constraints. An interesting market opportunity can still be unsuitable for the portfolio.
 
+## Current pilot scope
+
+Portfolio Insider now accepts **Spot portfolios and Spot plans only**: coins/tokens and stablecoins. Futures positions, Futures plans and options are deferred until their accounting, risk and contract-specific rules are designed and validated. Existing derivative research modules are retained for future development and are not enabled in the public intake.
+
 ## Current status
 
 | Component | Status |
