@@ -93,9 +93,9 @@ function initSingleVenue(){
 }
 
 function initSharedRisk(){
- const label=document.createElement('label');label.textContent=lang==='vi'?'Khẩu vị rủi ro trong chu kỳ (% giá vốn, dùng chung cho các tài sản)':lang==='zh'?'周期风险偏好（占成本百分比，所有资产共用）':'Cycle risk tolerance (% of cost, shared across assets)';
+ const label=document.createElement('label');label.textContent=lang==='vi'?'Khẩu vị rủi ro của bạn trong chu kỳ đầu tư (mức thua lỗ tối đa bao nhiêu % vốn đầu tư)':lang==='zh'?'周期风险偏好（占成本百分比，所有资产共用）':'Cycle risk tolerance (% of cost, shared across assets)';
  const input=document.createElement('input');input.id='shared-cycle-loss';input.type='number';input.min='0.01';input.max='99.99';input.step='any';input.required=true;label.append(input);$('assets-title').before(label);
- const note=document.createElement('p');note.className='hint';note.textContent=lang==='vi'?'Nhập một lần cho BTC và các altcoin trong danh mục, kể cả tài sản mua mới. Hệ thống dùng cùng tỷ lệ này để tính mức giá chịu lỗ từ giá vốn từng tài sản; đây không phải dự báo giá.':lang==='zh'?'只填写一次，适用于 BTC、其他币种及新买入资产。系统按各项成本换算承受亏损的参考价格；这不是价格预测。':'Enter once for BTC, altcoins and new purchases. The same percentage converts each asset’s cost into a loss-reference price; it is not a price forecast.';label.after(note);
+
  const cycle=planField('cycleLossPct');cycle.closest('label').hidden=true;cycle.required=false;
  const decision=$('risk-fields').querySelector('[data-key=risk]').closest('label');const amount=planField('amount').closest('label');amount.after(decision);
  // The decision amount and its tolerance now live together in the plan fields.
