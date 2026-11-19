@@ -14,3 +14,13 @@ export function portfolioPreview(m){
  if(m.hasFutures){const wallet=number(m.wallet),positions=m.positions.map(r=>holdingPreview(r,true));if(!Number.isFinite(wallet)||wallet<0||positions.some(x=>!x))incomplete++;else{const u=positions.reduce((a,x)=>a+x.pnl,0);nav+=wallet+u;pnl+=u;}}
  return {nav,pnl,incomplete};
 }
+
+// Isolated asset threshold: stablecoins and all other holdings retain current value.
+// This is a conditional portfolio boundary, never an asset-cost stop or forecast.
+export function portfolioLossThreshold(m,index,pct){
+ const v=portfolioPreview(m),r=m.assets[index],risk=number(pct);
+ if(v.incomplete||m.hasFutures||!r||r.kind!=='spot'||!Number.isFinite(risk)||risk<=0||risk>=100||v.nav<=0)return null;
+ const qty=number(r.qty),price=number(r.price);if(!Number.isFinite(qty)||qty<=0||!Number.isFinite(price)||price<=0)return null;
+ const floor=v.nav*(1-risk/100),otherValue=v.nav-qty*price,raw=(floor-otherValue)/qty;
+ return {nav:v.nav,floor,otherValue,price:raw>=0?raw:null,reachable:raw>=0,otherAssetsFixed:true};
+}

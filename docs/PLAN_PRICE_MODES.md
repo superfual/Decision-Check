@@ -21,3 +21,11 @@ The Spot intake asks for a minimum cash/stablecoin share of total current portfo
 ## Current portfolio risk summary
 
 The public form reads the cycle loss percentage from the investor's single intake field and displays it read-only below. The portfolio reference value is calculated from the current listed holdings, and the reference time equals the selected analysis time. This is a current-snapshot loss budget, not historical drawdown tracking. No separate default 20% is applied to cycle loss; the adjustable cash-safety ratio remains independent. The UI does not ask users to reconcile historical flows for a newly established point-in-time reference.
+
+
+## Whole-portfolio loss boundary
+- The shared cycle percentage is a loss budget against current total NAV, not a decline from each asset's average cost.
+- For a holding with quantity q, current NAV N and other holdings worth O, its conditional boundary price is (N × (1 − loss_pct/100) − O) / q. Stablecoins and all other assets are held at their current value. Average cost affects unrealized PnL, not this boundary.
+- If O exceeds the NAV floor, no nonnegative price for this asset alone can breach the limit; display that fact instead of a negative stop price. Incomplete balances suppress the boundary.
+- The analysis tests the planned asset at the user's adverse price; other holdings and stablecoins remain unchanged. This assumption is displayed and exported. It is not a forecast or a combined market-crash simulation.
+- Removed the BTC + USDT example button and its data-populating handler.
