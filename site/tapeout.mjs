@@ -1,0 +1,36 @@
+// Read-only X Layer adapter. No wallet, signing, transaction, or local fallback.
+export const CONFIG=Object.freeze({chainId:196,rpc:'https://rpc.xlayer.tech',processor:'0x4f3b708af365b8f339dd35a8985ffe06c2553400',circuitId:49,referenceId:48,beacon:'0xf70d1ed4f62cf3780157b0b421b7e2f45bd0991c'});
+export const KEYS=['wyckoff_valid','wyckoff_pass','smc_valid','smc_pass','portfolio_valid','portfolio_pass'];
+const word=n=>BigInt(n).toString(16).padStart(64,'0');
+const nandNet='0x000000020000030000000400000400000005000005';
+const ref=(a,b)=>'02'+CONFIG.processor.slice(2)+word(48).slice(-16)+'0201'+a.toString(16).padStart(6,'0')+b.toString(16).padStart(6,'0');
+export const NETLIST='0x'+[[2,3],[5,5],[6,4],[7,7]].map(([a,b])=>ref(a,b)).join('');
+export function validateBits(bits){if(!bits||Object.keys(bits).sort().join()!==[...KEYS].sort().join()||KEYS.some(k=>typeof bits[k]!=='boolean'))throw Error('SIX_BOOLEAN_INPUTS_REQUIRED');return bits;}
+export function evalData(id,bits){if(![48,49].includes(id)||!Array.isArray(bits)||bits.length!==(id===49?3:2)||bits.some(b=>b!==0&&b!==1))throw Error('INVALID_CIRCUIT_INPUT');const n=bits.reduce((v,b,i)=>v|(b<<i),0);return '0x934d06ea'+word(id)+word(64)+word(1)+n.toString(16).padStart(2,'0')+'00'.repeat(31);}
+export function decodeBytes(raw){if(typeof raw!=='string'||!/^0x[0-9a-f]*$/i.test(raw)||raw.length<130)throw Error('INVALID_ABI_BYTES');const s=raw.slice(2);if(BigInt('0x'+s.slice(0,64))!==32n)throw Error('INVALID_ABI_OFFSET');const n=Number(BigInt('0x'+s.slice(64,128)));if(!Number.isSafeInteger(n)||n<0||n>24000||s.length!==128+Math.ceil(n/32)*64)throw Error('INVALID_ABI_LENGTH');if(/[^0]/.test(s.slice(128+n*2)))throw Error('INVALID_ABI_PADDING');return '0x'+s.slice(128,128+n*2).toLowerCase();}
+export function canonical(x){if(Array.isArray(x))return '['+x.map(canonical).join(',')+']';if(x&&typeof x==='object')return '{'+Object.keys(x).sort().map(k=>JSON.stringify(k)+':'+canonical(x[k])).join(',')+'}';return JSON.stringify(x);}
+export async function sha256(x){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(canonical(x)));return [...new Uint8Array(b)].map(n=>n.toString(16).padStart(2,'0')).join('');}
+export async function rpc(method,params=[],{fetcher=fetch,rpcUrl=CONFIG.rpc}={}){const r=await fetcher(rpcUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params}),signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('RPC_HTTP_'+r.status);const j=await r.json();if(j.error||j.result===undefined)throw Error('RPC_READ_FAILED: '+(j.error?.message||'missing result'));return j.result;}
+const shape=raw=>{if(!/^0x[0-9a-f]{256}$/i.test(raw||''))throw Error('INVALID_CIRCUIT_INFO');return raw.slice(2).match(/.{64}/g).map(s=>Number(BigInt('0x'+s)));};
+export async function readCombination(source,{read=rpc,blockTag}={}){
+ const bits=validateBits(source.bits);if(source.dataValid!==true)throw Error('ANALYSIS_DATA_NOT_VALID');
+ if(BigInt(await read('eth_chainId',[]))!==196n)throw Error('WRONG_CHAIN');
+ blockTag??=await read('eth_blockNumber',[]);if(!/^0x[0-9a-f]+$/i.test(blockTag))throw Error('INVALID_BLOCK');
+ const header=await read('eth_getBlockByNumber',[blockTag,false]);if(!/^0x[0-9a-f]{64}$/i.test(header?.hash||'')||BigInt(header.number)!==BigInt(blockTag))throw Error('INVALID_BLOCK_HEADER');
+ const call=async data=>{const raw=await read('eth_call',[{to:CONFIG.processor,data},blockTag]);return {calldata:data,rawResult:raw};};
+ const circuitReads=await Promise.all([49,48].map(async id=>{const [info,net]=await Promise.all([call('0x084d60f1'+word(id)),call('0x3fc4be56'+word(id))]);const dimensions=shape(info.rawResult),netlist=decodeBytes(net.rawResult);if(dimensions.join()!==(id===49?'3,1,0,12':'2,1,0,3')||netlist!==(id===49?NETLIST:nandNet))throw Error('CIRCUIT_DESIGN_MISMATCH');return {id,shape:dimensions,netlist,reads:[info,net]};}));
+ const [processorCode,beaconImplementation,beaconSlot]=await Promise.all([read('eth_getCode',[CONFIG.processor,blockTag]),read('eth_call',[{to:CONFIG.beacon,data:'0x5c60da1b'},blockTag]),read('eth_getStorageAt',[CONFIG.processor,'0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50',blockTag])]);
+ if(beaconSlot.toLowerCase()!=='0x'+'0'.repeat(24)+CONFIG.beacon.slice(2))throw Error('PROCESSOR_BEACON_MISMATCH');
+ if(!/^0x[0-9a-f]+$/i.test(processorCode)||processorCode==='0x'||!/^0x0{24}[0-9a-f]{40}$/i.test(beaconImplementation))throw Error('INVALID_IMPLEMENTATION_READ');
+ const implementation='0x'+beaconImplementation.slice(-40).toLowerCase(),implementationCode=await read('eth_getCode',[implementation,blockTag]);if(!/^0x[0-9a-f]+$/i.test(implementationCode)||implementationCode==='0x')throw Error('IMPLEMENTATION_CODE_MISSING');
+ const evaluate=async(id,inputs)=>{const receipt=await call(evalData(id,inputs)),out=decodeBytes(receipt.rawResult);if(!['0x00','0x01'].includes(out))throw Error('NON_BOOLEAN_OUTPUT');const output=out==='0x01'?1:0,expected=id===49?Number(inputs.every(Boolean)):Number(!inputs.every(Boolean));if(output!==expected)throw Error('ONCHAIN_LOGIC_MISMATCH');return {circuitId:id,inputs,output,...receipt};};
+ const truthTable=await Promise.all([...[0,1,2,3].map(n=>evaluate(48,[n&1,(n>>1)&1])),...Array.from({length:8},(_,n)=>evaluate(49,[n&1,(n>>1)&1,(n>>2)&1]))]);
+ const validity=await evaluate(49,[Number(bits.wyckoff_valid),Number(bits.smc_valid),Number(bits.portfolio_valid)]);
+ const conditions=await evaluate(49,[Number(bits.wyckoff_pass),Number(bits.smc_pass),Number(bits.portfolio_pass)]);
+ const final=await evaluate(49,[validity.output,conditions.output,1]);
+ const end=await read('eth_getBlockByNumber',[blockTag,false]);if(end?.hash!==header.hash)throw Error('BLOCK_CHANGED_DURING_READ');
+ const expected=Number(KEYS.every(k=>bits[k]));if(final.output!==expected)throw Error('COMBINER_MISMATCH');
+ const receipt={schema:'decision-check.tapeout-receipt.v1',status:'ONCHAIN_READ_MATCH',chainId:196,processor:CONFIG.processor,circuitId:49,tapeId:'49.2.167',method:'eth_call',blockTag,blockHash:header.hash,blockTimestamp:header.timestamp,source,circuits:circuitReads,implementation:{beacon:CONFIG.beacon,beaconSlot,address:implementation,processorCode,code:implementationCode},truthTable,stages:{validity,conditions,final},output:final.output,checkedAt:new Date().toISOString(),scope:'Only supplied Boolean combination checked. Does not authenticate agent evidence or financial inputs. No transaction; numeric risk checks still run in Portfolio Insider.'};
+ return {...receipt,receiptSha256:await sha256(receipt)};
+}
+export async function verifyReceipt(receipt,options={}){if(receipt?.schema!=='decision-check.tapeout-receipt.v1'||receipt.chainId!==196||receipt.processor!==CONFIG.processor||receipt.circuitId!==49)throw Error('UNRECOGNIZED_RECEIPT');const {receiptSha256,...body}=receipt;if(await sha256(body)!==receiptSha256)throw Error('RECEIPT_CONTENT_CHANGED');const replay=await readCombination(receipt.source,{...options,blockTag:receipt.blockTag});const stable=r=>{const {checkedAt,receiptSha256,...x}=r;return canonical(x);};if(stable(receipt)!==stable(replay))throw Error('REPLAY_MISMATCH');return {status:'REPLAY_MATCH',receiptSha256,blockTag:replay.blockTag,blockHash:replay.blockHash,output:replay.output};}
