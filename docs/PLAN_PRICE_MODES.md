@@ -16,3 +16,8 @@ The public Spot intake asks once for the investor's cost-based cycle loss tolera
 ## Adjustable cash-safety percentage
 
 The Spot intake asks for a minimum cash/stablecoin share of total current portfolio NAV, default 20%, editable from 0 to 100%. The requested purchase and the bounded alternative both report remaining cash and cash percentage. The sizing engine includes this constraint alongside the selected funding bucket and existing risk constraints. Buying Spot converts cash into an asset; with no fee buffer NAV is unchanged, so the cash cap is max(0, cash − selected_percentage × NAV). A nonzero loss buffer reduces both cash and NAV and is included in the exact inequality. If current cash is already below target, the additional-purchase cap is zero and the gate remains unmet. This is a point-in-time analytical constraint, not a promise about future market prices.
+
+
+## Current portfolio risk summary
+
+The public form reads the cycle loss percentage from the investor's single intake field and displays it read-only below. The portfolio reference value is calculated from the current listed holdings, and the reference time equals the selected analysis time. This is a current-snapshot loss budget, not historical drawdown tracking. No separate default 20% is applied to cycle loss; the adjustable cash-safety ratio remains independent. The UI does not ask users to reconcile historical flows for a newly established point-in-time reference.
