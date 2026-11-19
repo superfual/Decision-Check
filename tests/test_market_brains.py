@@ -105,14 +105,14 @@ class MarketBrainTests(unittest.TestCase):
         self.assertFalse(all(c['pass'] for c in smc_rules(e,candles,{'bias':'NEUTRAL'},'BULLISH')))
 
     def test_three_legs_fail_closed_scope_and_requested_budget(self):
-        p=bnb();s=snapshot();r=evaluate_three(p,s)
+        p=bnb();s=snapshot();r=evaluate_three(p,s,evaluated_at='2026-11-19T00:00:00Z')
         self.assertEqual(r['status'],'RULES_NOT_MET')
         self.assertFalse(r['circuit_candidate']['bits']['portfolio_pass'])
         self.assertFalse(r['circuit_candidate']['local_result'])
         p['decision']['symbol']='BTCUSDT'
-        self.assertEqual(evaluate_three(p,s)['status'],'UNKNOWN')
+        self.assertEqual(evaluate_three(p,s,evaluated_at='2026-11-19T00:00:00Z')['status'],'UNKNOWN')
         p=bnb();p['as_of']='2026-11-19T02:00:00Z'
-        self.assertEqual(evaluate_three(p,s)['status'],'UNKNOWN')
+        self.assertEqual(evaluate_three(p,s,evaluated_at='2026-11-19T00:00:00Z')['status'],'UNKNOWN')
 
     def test_combiner_all_64_boolean_cases(self):
         import itertools

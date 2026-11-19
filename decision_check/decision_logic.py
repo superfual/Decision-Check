@@ -2,17 +2,18 @@
 
 Recompute reports from source inputs. No deployment, wallet or transaction.
 """
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from .market import digest
 from .market_brains import run_market_brains
 from .portfolio_insider import PortfolioInsiderAgent
 
 
-def evaluate_three(portfolio_input, snapshot):
+def evaluate_three(portfolio_input, snapshot, *, evaluated_at=None, expected_portfolio_version=None):
     pair=run_market_brains(snapshot)
     portfolio=PortfolioInsiderAgent().run(portfolio_input)
     errors=[]
+    timing={}
     try:
         d=portfolio_input['decision']
         market='SPOT' if d['product']=='SPOT' else 'USD_M_FUTURES'
@@ -22,10 +23,26 @@ def evaluate_three(portfolio_input, snapshot):
             errors.append('SCOPE_MISMATCH')
         as_of=datetime.fromisoformat(portfolio_input['as_of'].replace('Z','+00:00'))
         if as_of.tzinfo is None: errors.append('TIMEZONE_REQUIRED')
-        age=Decimal(str(as_of.timestamp()))*1000-snapshot['cutoff_ms']
-        if age<0 or age>3600000:errors.append('SNAPSHOT_OUTSIDE_ONE_HOUR_WINDOW')
+        # Live runs use the actual aggregation clock. Offline replay supplies its recorded clock.
+        now=datetime.now(timezone.utc) if evaluated_at is None else datetime.fromisoformat(evaluated_at.replace('Z','+00:00'))
+        if now.tzinfo is None: raise ValueError('TIMEZONE_REQUIRED')
+        now_ms=Decimal(str(now.timestamp()))*1000
+        portfolio_ms=Decimal(str(as_of.timestamp()))*1000
+        market_ms=Decimal(str(snapshot['cutoff_ms']))
+        for name,stamp in [('PORTFOLIO',portfolio_ms),('MARKET',market_ms)]:
+            age=now_ms-stamp
+            if age<0:errors.append(name+'_TIMESTAMP_IN_FUTURE')
+            elif age>3600000:errors.append(name+'_OLDER_THAN_ONE_HOUR')
+        timing={'evaluated_at':now.isoformat(),'portfolio_as_of':portfolio_input['as_of'],
+                'market_cutoff_ms':snapshot['cutoff_ms'],'maximum_age_seconds':3600,
+                'mode':'LIVE' if evaluated_at is None else 'RECORDED_REPLAY'}
     except (KeyError,TypeError,ValueError,AttributeError):
         side='BULLISH';errors.append('INVALID_SCOPE_OR_TIME')
+    if expected_portfolio_version is not None and expected_portfolio_version!=portfolio.get('agent_id'):
+        errors.append('PORTFOLIO_ENGINE_VERSION_MISMATCH')
+    required={'decision','cycle','anchor_not_already_breached','funding_or_margin_estimate','cash_safety'}
+    if portfolio_input.get('decision',{}).get('product')=='SPOT' and not required.issubset(portfolio.get('requested',{}).get('gates',{})):
+        errors.append('PORTFOLIO_RISK_CHECKS_INCOMPLETE')
     w,s=pair['wyckoff'],pair['smc']
     bound=not errors
     wvalid=bound and w.get('valid',False) and w['status']=='ANALYZED'
@@ -43,7 +60,7 @@ def evaluate_three(portfolio_input, snapshot):
     valid=wvalid and svalid and pvalid
     passed=boolean_gate(bits)
     return {'schema':'decision-check.three-logic.v1','status':'RULES_MET' if passed else 'RULES_NOT_MET' if valid else 'UNKNOWN',
-        'side':side,'binding_errors':errors,'market_agents':pair,'portfolio':portfolio,
+        'side':side,'binding_errors':errors,'timing':timing,'portfolio_engine_version':portfolio.get('agent_id'),'market_agents':pair,'portfolio':portfolio,
         'circuit_candidate':{'schema':'decision-check.boolean-inputs.v1','bits':bits,
             'rule':'W_valid AND W_pass AND S_valid AND S_pass AND P_valid AND P_pass',
             'local_result':passed,'data_valid':valid,

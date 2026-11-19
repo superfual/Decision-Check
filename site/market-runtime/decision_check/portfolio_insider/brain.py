@@ -9,7 +9,7 @@ from datetime import datetime
 import hashlib
 import json
 
-VERSION = 'portfolio-insider.brain.v1'
+VERSION = 'portfolio-insider.brain.v1.1'
 ZERO, ONE, HUNDRED = Decimal(0), Decimal(1), Decimal(100)
 PROFILES = {'CYCLE': ['1M', '1w', '1d'], 'SWING': ['1d', '4h', '1h'],
             'INTRADAY': ['4h', '1h', '15m']}
@@ -285,7 +285,9 @@ def _run(data):
             existing = next((p for p in spots if p['id'] == existing_id), None)
             if existing is None or (existing['asset'], existing['venue']) != (asset, venue):
                 raise PortfolioInputError('POSITION_SCOPE_MISMATCH')
-            if existing['price'] != entry:
+            if d.get('entry_mode', 'MARKET') not in ('MARKET', 'LIMIT'):
+                raise PortfolioInputError('UNSUPPORTED_ENTRY_MODE')
+            if d.get('entry_mode', 'MARKET') != 'LIMIT' and existing['price'] != entry:
                 raise PortfolioInputError('ENTRY_NOT_CURRENT_REFERENCE')
             if positive(cycle['prices'][existing_id], 'cycle.selected_price') != cycle_price:
                 raise PortfolioInputError('CYCLE_SCENARIO_INCONSISTENT')
@@ -326,7 +328,16 @@ def _run(data):
     per_decision_cap = budget * entry / (distance + entry * buffer_rate)
     headroom = baseline - floor
     cycle_cap = max(ZERO, headroom) * entry / (cycle_distance + entry * buffer_rate)
+    cash_safe_pct = percent(d.get('minimum_cash_pct', '0'), 'minimum_cash_pct')
+    cash_safe_rate = cash_safe_pct / HUNDRED
+    cash_safe_cap = None
+    if d['product'] == 'SPOT':
+        # A purchase converts cash to spot; only the loss buffer reduces NAV.
+        cash_safe_cap = max(ZERO, (cur['cash_value'] - cash_safe_rate * cur['nav']) /
+            (ONE + buffer_rate - cash_safe_rate * buffer_rate))
     caps = {'decision': per_decision_cap, 'cycle': cycle_cap, 'requested': proposed}
+    if cash_safe_cap is not None:
+        caps['cash_safety'] = cash_safe_cap
     if funding_cap is not None:
         caps['funding_or_margin_estimate'] = funding_cap
     # Do not recommend new exposure when current NAV already breaches its anchor.
@@ -341,12 +352,21 @@ def _run(data):
             'cycle': within(max(ZERO, anchor - scenario_nav), anchor * cycle_pct / HUNDRED),
             'anchor_not_already_breached': cur['nav'] >= floor,
             'funding_or_margin_estimate': None if funding_cap is None else within(amount, funding_cap)}
+        if d['product'] == 'SPOT':
+            cash_after = cur['cash_value'] - amount * (ONE + buffer_rate)
+            nav_after = cur['nav'] - amount * buffer_rate
+            gates['cash_safety'] = nav_after > ZERO and cash_after >= cash_safe_rate * nav_after
         result = {'amount': amount, 'quantity': quantity, 'decision_loss': decision_loss,
             'decision_loss_pct_of_requested': ratio(decision_loss, proposed),
             'cycle_scenario_nav': scenario_nav,
             'cycle_drawdown_pct_from_anchor': ratio(max(ZERO, anchor - scenario_nav), anchor),
             'additional_decline_pct_from_current_nav': ratio(max(ZERO, cur['nav'] - scenario_nav), cur['nav']),
             'gates': gates, 'risk_limits_met': all(v is True for v in gates.values())}
+        if d['product'] == 'SPOT':
+            result['cash_after_purchase'] = cash_after
+            result['nav_after_purchase'] = nav_after
+            result['cash_ratio_after_purchase_pct'] = ratio(cash_after, nav_after)
+            result['minimum_cash_pct'] = cash_safe_pct
         if d['product'] == 'SPOT':
             result['spot_after'] = _dca(existing, quantity, amount, entry)
             total_qty = result['spot_after']['quantity']
@@ -407,7 +427,7 @@ def _run(data):
             'requested_timeframes': PROFILES[d['profile']], 'status': 'PROPOSED_NOT_FETCHED'},
         'findings': findings,
         'tapeout': {'status': 'NOT_REQUESTED', 'circuit_id': None,
-            'candidate_checks': ['decision_loss <= frozen_budget', 'cycle_nav >= fixed_nav_floor']},
+            'candidate_checks': ['decision_loss <= frozen_budget', 'cycle_nav >= fixed_nav_floor', 'cash_after_purchase >= minimum_cash_pct / 100 * nav_after_purchase']},
         'limitations': ['User-supplied snapshot; not full ledger reconciliation.',
             'All other positions require explicit cycle prices; cash FX rates held fixed in scenarios.',
             'Cycle anchor must already be adjusted for external flows; no automatic reset.',

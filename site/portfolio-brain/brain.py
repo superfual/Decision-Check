@@ -9,7 +9,7 @@ from datetime import datetime
 import hashlib
 import json
 
-VERSION = 'portfolio-insider.brain.v1'
+VERSION = 'portfolio-insider.brain.v1.1'
 ZERO, ONE, HUNDRED = Decimal(0), Decimal(1), Decimal(100)
 PROFILES = {'CYCLE': ['1M', '1w', '1d'], 'SWING': ['1d', '4h', '1h'],
             'INTRADAY': ['4h', '1h', '15m']}
@@ -427,7 +427,7 @@ def _run(data):
             'requested_timeframes': PROFILES[d['profile']], 'status': 'PROPOSED_NOT_FETCHED'},
         'findings': findings,
         'tapeout': {'status': 'NOT_REQUESTED', 'circuit_id': None,
-            'candidate_checks': ['decision_loss <= frozen_budget', 'cycle_nav >= fixed_nav_floor']},
+            'candidate_checks': ['decision_loss <= frozen_budget', 'cycle_nav >= fixed_nav_floor', 'cash_after_purchase >= minimum_cash_pct / 100 * nav_after_purchase']},
         'limitations': ['User-supplied snapshot; not full ledger reconciliation.',
             'All other positions require explicit cycle prices; cash FX rates held fixed in scenarios.',
             'Cycle anchor must already be adjusted for external flows; no automatic reset.',
